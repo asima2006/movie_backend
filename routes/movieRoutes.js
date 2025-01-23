@@ -56,7 +56,7 @@ router.get('/stream/:id', async (req, res) => {
         };
 
         // Debugging log
-        console.log('Fetching video with params:', videoParams);
+        // console.log('Fetching video with params:', videoParams);
 
         // Get video metadata
         const headResult = await s3Client.send(new HeadObjectCommand(videoParams));
@@ -104,7 +104,7 @@ router.get('/stream/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const movies = await Movie.findById(req.params.id);
-        console.log(movies);
+        // console.log(movies);
         res.status(200).json(movies);
     } catch (error) {
         console.error('Error fetching movies:', error);
