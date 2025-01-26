@@ -22,6 +22,7 @@ router.post('/upload', upload.single('movie'), async (req, res) => {
         }
 
         const result = await uploadVideo(req.file);
+        console.log("Working Upload");
 
         const newMovie = new Movie({
             title: result.Key.split('/')[1], // Extract filename from S3 Key
@@ -44,6 +45,7 @@ router.get('/stream/:id', async (req, res) => {
         if (!movie) {
             return res.status(404).json({ error: 'Movie not found' });
         }
+        console.log("Working Stream");
 
         const range = req.headers.range;
         if (!range) {
@@ -105,6 +107,7 @@ router.get('/:id', async (req, res) => {
     try {
         const movies = await Movie.findById(req.params.id);
         // console.log(movies);
+        console.log("Working ID");
         res.status(200).json(movies);
     } catch (error) {
         console.error('Error fetching movies:', error);
