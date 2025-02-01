@@ -37,6 +37,26 @@ router.post('/upload', upload.single('movie'), async (req, res) => {
     }
 });
 
+router.post('/update', async (req, res) => {
+    try {
+        const { videourl } = req.body;
+        if (!videourl) {
+            return res.status(400).json({ error: 'Video URL is required' });
+        }
+        const filename = videourl.split('/').pop() || 'Unknown Title';
+        const newMovie = new Movie({
+            title: filename,
+            videoUrl: videourl,
+        });
+
+        await newMovie.save();
+        res.status(201).json({ message: 'Movie updated successfully', movie: newMovie });
+    } catch (error) {
+        console.error('Update error:', error);
+        res.status(500).json({ error: 'Failed to update document' });
+    }
+});
+
 // Stream Movie from S3
 router.get('/stream/:id', async (req, res) => {
     try {
